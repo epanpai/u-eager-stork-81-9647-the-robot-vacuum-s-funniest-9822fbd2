@@ -53,6 +53,9 @@ if (
   LINE.length < 1 ||
   LINE.length > 120 ||
   Buffer.byteLength(LINE, 'utf8') !== LINE.length ||
+  // Printable ASCII only (0x20–0x7E): no control characters or stray
+  // Unicode that the sealed scorer could count differently from us.
+  ![...LINE].every((ch) => ch >= ' ' && ch <= '~') ||
   LINE.trim() === '' ||
   LINE !== LINE.trim() ||
   /[\r\n]/.test(LINE)
